@@ -2,7 +2,7 @@ import { config } from "dotenv";
 
 config();
 
-export const PORT: number = Number(process.env.PORT) || 3000;
+export const PORT: number = Number(process.env.PORT) || 4000;
 export const MONGODB_URI: string = process.env.MONGODB_URI || "";
 export const SESSION_SECRET: string = process.env.SESSION_SECRET || "";
 
