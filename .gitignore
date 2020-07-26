@@ -122,3 +122,4 @@ dist
 .history
 
 # End of https://www.toptal.com/developers/gitignore/api/dotenv,node,visualstudiocode
+node_modules

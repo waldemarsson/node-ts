@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/app.js",
-  "type": "module",
   "scripts": {
     "dev": "concurrently --kill-others --names \"BUILD,RUN\" -c \"bgBlue.bold,bgGreen.bold\" \"tsc -w\" \"nodemon -q -w dist dist/app.js\""
   },
