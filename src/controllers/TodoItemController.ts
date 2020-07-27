@@ -14,7 +14,6 @@ export class TodoItemController implements Controller {
   }
 
   public async create(req: Request, res: Response): Promise<void> {
-    console.log(req.body);
     const item: TodoItemDocument = req.body;
     if (!item || item._id === null || item._id) {
       res.status(400).send();
