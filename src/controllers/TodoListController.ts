@@ -57,7 +57,7 @@ export class TodoListController implements Controller {
     .todoListService.getLists();
 
     if (result?.success && result?.content) {
-      res.status(200).send(result.content);
+      res.status(200).send(result.content.reverse());
     } else if (result?.errors && result?.errorType === ErrorType.FATAL) {
       res.status(500).send(result.errors);
     } else {
