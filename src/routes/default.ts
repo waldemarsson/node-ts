@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 
-const router = Router();
+const router: Router = Router();
 
 // @ts-ignore: TS6133
-router.all("*", (req, res) => {
+router.all("*", (req: Request, res: Response): Promise<void> => {
   res.status(404);
   res.send();
 });
