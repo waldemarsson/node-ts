@@ -40,21 +40,13 @@ export class TodoListController implements Controller {
     const result: ServiceResult<TodoListDocument | null> = await this
       .todoListService.getList(id);
 
-    if (result?.success && result?.content) {
-      res.status(200).send(result.content);
-    } else if (result?.errors && result?.errorType === ErrorType.DEFAULT) {
-      res.status(404).send(result.errors);
-    } else if (result?.errors && result?.errorType === ErrorType.FATAL) {
-      res.status(500).send(result.errors);
-    } else {
-      res.status(500).send();
-    }
+    TodoListController.handleServiceResultAndSendResponse(res, result);
   }
 
   // @ts-ignore: TS6133
   public async readAll(req: Request, res: Response): Promise<void> {
     const result: ServiceResult<TodoListDocument[]> = await this
-    .todoListService.getLists();
+      .todoListService.getLists();
 
     if (result?.success && result?.content) {
       res.status(200).send(result.content.reverse());
@@ -64,6 +56,7 @@ export class TodoListController implements Controller {
       res.status(500).send();
     }
   }
+
   public async update(req: Request, res: Response): Promise<void> {
     const id: string = req.params.id;
     const list: TodoListDocument = req.body;
@@ -74,15 +67,7 @@ export class TodoListController implements Controller {
     const result: ServiceResult<TodoListDocument | null> = await this
       .todoListService.updateList(id, list);
 
-    if (result?.success && result?.content) {
-      res.status(200).send(result.content);
-    } else if (result?.errors && result?.errorType === ErrorType.DEFAULT) {
-      res.status(404).send(result.errors);
-    } else if (result?.errors && result?.errorType === ErrorType.FATAL) {
-      res.status(500).send(result.errors);
-    } else {
-      res.status(500).send();
-    }
+    TodoListController.handleServiceResultAndSendResponse(res, result);
   }
 
   public async delete(req: Request, res: Response): Promise<void> {
@@ -94,6 +79,10 @@ export class TodoListController implements Controller {
       .todoListService
       .deleteList(id);
 
+    TodoListController.handleServiceResultAndSendResponse(res, result);
+  }
+
+  private static handleServiceResultAndSendResponse(res: Response, result: ServiceResult<TodoListDocument | null>): void {
     if (result?.success && result?.content) {
       res.status(200).send(result.content);
     } else if (result?.errors && result?.errorType === ErrorType.DEFAULT) {

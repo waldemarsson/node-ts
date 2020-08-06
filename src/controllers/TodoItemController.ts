@@ -41,15 +41,7 @@ export class TodoItemController implements Controller {
     const result: ServiceResult<TodoItemDocument | null> = await this
       .todoItemService.getItem(id);
 
-    if (result?.success && result?.content) {
-      res.status(200).send(result.content);
-    } else if (result?.errors && result?.errorType === ErrorType.DEFAULT) {
-      res.status(404).send(result.errors);
-    } else if (result?.errors && result?.errorType === ErrorType.FATAL) {
-      res.status(500).send(result.errors);
-    } else {
-      res.status(500).send();
-    }
+    TodoItemController.handleServiceResultAndSendResponse(res, result);
   }
 
   // @ts-ignore: TS6133
@@ -75,15 +67,7 @@ export class TodoItemController implements Controller {
     const result: ServiceResult<TodoItemDocument | null> = await this
       .todoItemService.updateItem(id, item);
 
-    if (result?.success && result?.content) {
-      res.status(200).send(result.content);
-    } else if (result?.errors && result?.errorType === ErrorType.DEFAULT) {
-      res.status(404).send(result.errors);
-    } else if (result?.errors && result?.errorType === ErrorType.FATAL) {
-      res.status(500).send(result.errors);
-    } else {
-      res.status(500).send();
-    }
+    TodoItemController.handleServiceResultAndSendResponse(res, result);
   }
 
   public async delete(req: Request, res: Response): Promise<void> {
@@ -95,6 +79,10 @@ export class TodoItemController implements Controller {
       .todoItemService
       .deleteItem(id);
 
+    TodoItemController.handleServiceResultAndSendResponse(res, result);
+  }
+
+  private static handleServiceResultAndSendResponse(res: Response, result: ServiceResult<TodoItemDocument | null>): void {
     if (result?.success && result?.content) {
       res.status(200).send(result.content);
     } else if (result?.errors && result?.errorType === ErrorType.DEFAULT) {
